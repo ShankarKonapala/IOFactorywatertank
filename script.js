@@ -23,35 +23,28 @@ function calculateWater() {
     }
 
     let waterTrapped = 0;
-    const svgWidth = 600;
-    const svgHeight = Math.max(...heights) + 50;
+    const maxHeight = Math.max(...heights);
 
-    let svg = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">`;
-
-    heights.forEach((height, index) => {
-        const x = (index * svgWidth) / n;
-        const rectWidth = svgWidth / n;
-        const rectHeight = height;
-
-        svg += `<rect x="${x}" y="${svgHeight - rectHeight}" width="${rectWidth}" height="${rectHeight}"
-                fill="#3498db" stroke="#2980b9" stroke-width="2" />`;
-    });
-
-    heights.forEach((height, index) => {
-        const x = (index * svgWidth) / n;
-        const rectWidth = svgWidth / n;
-        const waterHeight = Math.min(leftMax[index], rightMax[index]) - height;
-
-        if (waterHeight > 0) {
-            svg += `<rect x="${x}" y="${svgHeight - height - waterHeight}" width="${rectWidth}" height="${waterHeight}"
-                    fill="#e74c3c" stroke="#c0392b" stroke-width="2" />`;
-            waterTrapped += waterHeight;
+    let tableHTML = '<table>';
+    for (let row = 0; row < maxHeight; row++) {
+        tableHTML += '<tr>';
+        for (let col = 0; col < n; col++) {
+            const height = heights[col];
+            const waterHeight = Math.min(leftMax[col], rightMax[col]) - height;
+            if (waterHeight > 0 && maxHeight - row <= waterHeight) {
+                tableHTML += `<td style="background-color: #3498db;"></td>`;
+                waterTrapped++;
+            } else if (height >= maxHeight - row) {
+                tableHTML += `<td style="background-color: #e74c3c;"></td>`;
+            } else {
+                tableHTML += `<td></td>`;
+            }
         }
-    });
-
-    svg += `</svg>`;
+        tableHTML += '</tr>';
+    }
+    tableHTML += '</table>';
 
     const resultElement = document.getElementById('result');
     resultElement.innerHTML = `<h2>Units of Water Trapped: ${waterTrapped} units</h2>`;
-    resultElement.innerHTML += svg;
+    resultElement.innerHTML += tableHTML;
 }
