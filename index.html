@@ -1,17 +1,26 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Water Trapping Visualization</title>
+    <title>Water Trapping Calculation</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        td {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #ccc;
+        }
+    </style>
 </head>
 <body>
-    <div>
-        <label for="heights">Block Heights (comma-separated):</label>
-        <input type="text" id="heights" />
-        <button onclick="calculateWater()">Calculate</button>
-    </div>
+    <label for="heights">Enter Heights (comma-separated):</label>
+    <input type="text" id="heights">
+    <button onclick="calculateWater()">Calculate Water Trapping</button>
+
     <div id="result"></div>
 
     <script src="./script.js"></script>
